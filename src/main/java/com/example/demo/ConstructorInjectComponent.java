@@ -29,9 +29,9 @@ public class ConstructorInjectComponent {
 	private InjectionServiceOne injectionServiceOne;
 
 	private InjectionServiceTwo injectionServiceTwo;
+	
+	private InjectionServiceThree injectionServiceThree;
 
-	public ConstructorInjectComponent() {
-	}
 
 	@Autowired(required = true)
 	public ConstructorInjectComponent(InjectionServiceOne injectionServiceOne,
@@ -41,18 +41,13 @@ public class ConstructorInjectComponent {
 	}
 
 	@Autowired(required = false)
-	public ConstructorInjectComponent(InjectionServiceTwo injectionServiceTwo) {
-		this.injectionServiceTwo = injectionServiceTwo;
+	public ConstructorInjectComponent(InjectionServiceThree injectionServiceThree) {
+		this.injectionServiceThree = injectionServiceThree;
 	}
-
-	@Autowired(required = false)
-	public ConstructorInjectComponent(InjectionServiceOne injectionServiceOne) {
-		this.injectionServiceOne = injectionServiceOne;
-	}
-
+	
 	@Scheduled(fixedRate = 1000L)
 	public void allFieldsConstructorInjectionTest() {
-		System.err.println("constructorInjection " + injectionServiceOne.method() + " " + injectionServiceTwo.method());
+		System.err.println("constructorInjection " + injectionServiceOne.method() + " " + injectionServiceTwo.method() + injectionServiceThree.method());
 	}
 
 }
