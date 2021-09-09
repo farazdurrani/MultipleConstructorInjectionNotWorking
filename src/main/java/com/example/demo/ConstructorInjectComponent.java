@@ -1,9 +1,8 @@
 package com.example.demo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * 
@@ -22,8 +21,6 @@ import org.springframework.stereotype.Component;
  * But I find this to be untrue.
  * 
  */
-@Component
-@EnableScheduling
 public class ConstructorInjectComponent {
 
 	private InjectionServiceOne injectionServiceOne;
@@ -32,22 +29,22 @@ public class ConstructorInjectComponent {
 	
 	private InjectionServiceThree injectionServiceThree;
 
-
-	@Autowired(required = true)
 	public ConstructorInjectComponent(InjectionServiceOne injectionServiceOne,
 			InjectionServiceTwo injectionServiceTwo) {
 		this.injectionServiceOne = injectionServiceOne;
 		this.injectionServiceTwo = injectionServiceTwo;
 	}
 
-	@Autowired(required = false)
 	public ConstructorInjectComponent(InjectionServiceThree injectionServiceThree) {
 		this.injectionServiceThree = injectionServiceThree;
 	}
 	
 	@Scheduled(fixedRate = 1000L)
 	public void allFieldsConstructorInjectionTest() {
-		System.err.println("constructorInjection " + injectionServiceOne.method() + " " + injectionServiceTwo.method() + injectionServiceThree.method());
+		System.err.println("constructorInjection "
+				+ Optional.ofNullable(injectionServiceOne).map(InjectionServiceOne::method) + " "
+				+ Optional.ofNullable(injectionServiceTwo).map(InjectionServiceTwo::method) + " "
+				+ Optional.ofNullable(injectionServiceThree).map(InjectionServiceThree::method));
 	}
 
 }
